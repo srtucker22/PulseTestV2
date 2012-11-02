@@ -12,17 +12,19 @@
 
 #import <Parse/Parse.h>
 
-@interface User : NSObject <CLLocationManagerDelegate>
+@interface User : NSObject <CLLocationManagerDelegate>{
+    PFGeoPoint *geoPoint;
+}
 
 + (id)sharedUser;
 
 @property (nonatomic, strong) CLLocationManager *locationManager;
-
 @property (nonatomic, strong) PFObject *locationObject;
 
 @property int currentPulse;
 
-@property (readwrite) NSArray *brightnessValues;
+-(void)setPulseScore:(NSArray *)brightnessValues completionHandler:(void (^)(NSInteger pulse, NSError *error))handler;
+-(void)savePulse;
 
--(NSInteger)getPulseScore;
+-(void)queryPulses:(void (^)(NSArray *pulses, NSError *error))handler;
 @end

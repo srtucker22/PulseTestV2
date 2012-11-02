@@ -8,6 +8,9 @@
 
 #import "IntroViewController.h"
 #import "ProcessViewController.h"
+
+#import "TableViewController.h"
+
 @interface IntroViewController ()
 
 @end
@@ -19,6 +22,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        self.title = @"PulseTest";
     }
     return self;
 }
@@ -37,10 +41,18 @@
 
 -(IBAction)openVC:(id)sender
 {
-    ProcessViewController *viewController = [[ProcessViewController alloc] initWithNibName:@"ProcessViewController" bundle:nil];
-    [self presentViewController:viewController animated:YES completion:^(void)
-    {
-        
-    }];
+    processVC = [[ProcessViewController alloc] initWithNibName:@"ProcessViewController" bundle:nil];
+    [self.navigationController pushViewController:processVC animated:YES];
 }
+
+-(void)viewWillAppear:(BOOL)animated{
+    [self.navigationController setNavigationBarHidden:NO];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"History" style:UIBarButtonItemStyleBordered target:self action:@selector(showTableView:)];
+    [self.navigationController setToolbarHidden:YES];
+}
+
+-(IBAction)showTableView:(id)sender{
+    [self.navigationController pushViewController:[[TableViewController alloc] initWithStyle:UITableViewStylePlain] animated:YES];
+}
+
 @end

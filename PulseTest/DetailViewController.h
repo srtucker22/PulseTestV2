@@ -13,4 +13,5 @@
 
 @property (nonatomic, weak) IBOutlet MKMapView *mapView;
 
+@property (nonatomic, readwrite) PFObject *clickedObject;
 @end

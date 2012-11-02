@@ -7,11 +7,15 @@
 //
 
 #import "ResultsViewController.h"
+
 #import "User.h"
+
+#import "PulseCalculator.h"
+
 #import "IntroViewController.h"
-#import "GraphViewController.h"
 #import "DetailViewController.h"
-#import "IntroViewController.h"
+#import "TableViewController.h"
+
 @interface ResultsViewController ()
 
 @end
@@ -23,7 +27,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        score = [[User sharedUser] getPulseScore];
+        score = [[User sharedUser] currentPulse];
     }
     return self;
 }
@@ -31,6 +35,19 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    // Set title
+    self.title = @"Results";
+    [self.navigationController setNavigationBarHidden:NO];
+    
+    // Hide the back button and replace with home and table view button
+    [self.navigationItem setHidesBackButton:YES animated:YES];
+    UIBarButtonItem *tableViewButton = [[UIBarButtonItem alloc] initWithTitle:@"History" style:UIBarButtonItemStylePlain target:self action:@selector(showTableView:)];
+    self.navigationItem.rightBarButtonItem = tableViewButton;
+    
+    UIBarButtonItem *homeViewButton = [[UIBarButtonItem alloc] initWithTitle:@"Test Again" style:UIBarButtonItemStylePlain target:self action:@selector(showHomeView:)];
+    self.navigationItem.leftBarButtonItem = homeViewButton;
+    
     // Do any additional setup after loading the view from its nib.
     [scoreLabel setText:[NSString stringWithFormat: @"%i", score]];
     [scoreLabel setFont:[UIFont fontWithName:@"helvetica" size:60]];
@@ -42,34 +59,10 @@
     // Dispose of any resources that can be recreated.
 }
 
--(IBAction)goBack:(id)sender
-{
-    [self removeFromParentViewController];
-}
-
--(IBAction)viewGraph:(id)sender
-{
-    GraphViewController *graphVC = [[GraphViewController alloc] initWithNibName:@"GraphViewController" bundle:nil];
-    [graphVC setBrightnessValues:[[User sharedUser] brightnessValues]];
-    [self presentViewController:graphVC animated:YES completion:^(void)
-     {
-         NSTimer *countdownTimer = [NSTimer scheduledTimerWithTimeInterval: 5.0 target: self selector: @selector(handleTimerTick) userInfo: nil repeats: NO];
-     }];
-}
-
 -(IBAction)showMap:(id)sender
 {
-    DetailViewController *intro = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
-    [self presentViewController:intro animated:YES completion:^(void)
-     {
-         NSTimer *countdownTimer = [NSTimer scheduledTimerWithTimeInterval: 5.0 target: self selector: @selector(handleTimerTick) userInfo: nil repeats: NO];
-     }];
-}
-
--(void)handleTimerTick
-{
-    NSLog(@"here");
-    [self dismissModalViewControllerAnimated:YES];
+    DetailViewController *mapVC = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
+    [self.navigationController pushViewController:mapVC animated:YES];
 }
 
 -(IBAction)facebookLogin:(id)sender
@@ -126,5 +119,17 @@
             [alertView show];
         }
     }];
+}
+
+-(IBAction)showHomeView:(id)sender{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+-(IBAction)showTableView:(id)sender{
+    [self.navigationController pushViewController:[[TableViewController alloc] initWithStyle:UITableViewStylePlain] animated:YES];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [self.navigationController setToolbarHidden:YES];
 }
 @end

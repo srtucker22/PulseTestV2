@@ -7,6 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "ProcessViewController.h"
 @interface IntroViewController : UIViewController
+{
+    IBOutlet UIImageView *instructionsImage;
+    IBOutlet UILabel *instructionsLabel;
+    IBOutlet UIButton *instructionsButton;
+    
+    // For some reason this needed more retaining
+    ProcessViewController *processVC;
+}
 @end

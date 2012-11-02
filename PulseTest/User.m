@@ -7,16 +7,13 @@
 //
 
 #import "User.h"
-
+#import "PulseCalculator.h"
 @implementation User
 
 @synthesize locationManager=_locationManager;
-
 @synthesize locationObject;
 
 @synthesize currentPulse;
-
-@synthesize brightnessValues;
 
 static User *sharedUser = nil;
 
@@ -37,19 +34,22 @@ static User *sharedUser = nil;
     return sharedUser;
 }
 
--(void)querySaves:identifier completionHandler:(void (^)(NSArray *pulses, NSError *error))handler
+-(void)queryPulses:(void (^)(NSArray *pulses, NSError *error))handler
 {
-    PFQuery *query = [PFQuery queryWithClassName:@"Pulse"];
-        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
-         {
-            if (!error)
-            {
-                handler(objects, nil);
-            }else
-            {
-                handler(nil, error);
-            }
-         }];
+    PFQuery *query = [PFQuery queryWithClassName:@"Pulses"];
+    [query whereKey:@"userId" equalTo:[[PFUser currentUser] objectId]];
+    [query orderByAscending:@"createdAt"];
+    [query setLimit:1000];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
+     {
+        if (!error)
+        {
+            handler(objects, nil);
+        }else
+        {
+            handler(nil, error);
+        }
+     }];
 }
 
 #pragma mark - CLLocationManagerDelegate
@@ -64,27 +64,13 @@ static User *sharedUser = nil;
            fromLocation:(CLLocation *)oldLocation {
     CLLocation *location = _locationManager.location;
     CLLocationCoordinate2D coordinate = [location coordinate];
-    PFGeoPoint *geoPoint = [PFGeoPoint geoPointWithLatitude:coordinate.latitude
+    geoPoint = [PFGeoPoint geoPointWithLatitude:coordinate.latitude
                                                   longitude:coordinate.longitude];
-    
-    if(!locationObject)
-        locationObject = [PFObject objectWithClassName:@"Pulse"];
-    
-    [locationObject setObject:geoPoint forKey:@"location"];
-    [locationObject setObject:[NSNumber numberWithInt:currentPulse] forKey:@"pulse"];
-    [locationObject saveEventually:^(BOOL succeeded, NSError *error) {
-        if (succeeded) {
-            
-        }else{
-            NSLog(@"%@",error);
-        }
-    }];
-    
-    [self.locationManager stopUpdatingLocation];
 }
 
 - (void)locationManager:(CLLocationManager *)manager
        didFailWithError:(NSError *)error {
+    NSLog(@"%@",error);
     
 }
 
@@ -96,60 +82,35 @@ static User *sharedUser = nil;
     _locationManager = [[CLLocationManager alloc] init];
     [_locationManager setDesiredAccuracy:kCLLocationAccuracyNearestTenMeters];
     [_locationManager setDelegate:self];
-    [_locationManager setPurpose:@"Your current location is used to demonstrate PFGeoPoint and Geo Queries."];
+    [_locationManager setPurpose:@"Your current location is used to store when and where you are taking your pulse for your personal record."];
     
     return _locationManager;
 }
 
--(NSInteger)getPulseScore
+-(void)setPulseScore:(NSArray *)brightnessValues completionHandler:(void (^)(NSInteger pulse, NSError *error))handler
 {
-    float localMin = 100000000;
-    float localMax = -100000000;
-    float previousVal = -100000000;
-    
-    NSMutableArray *localMins = [[NSMutableArray alloc] init];
-    NSMutableArray *localMaxes = [[NSMutableArray alloc] init];
-    
-    for(NSNumber *value in brightnessValues)
-    {
-        float val = [value floatValue];
-        if(previousVal>=0)
-        {
-            if(val>previousVal)
-            {
-                if(localMin==previousVal){
-                    [localMins addObject:[NSNumber numberWithFloat:localMin]];
-                }
-                localMax=val;
-            }else
-                if(val<previousVal)
-                {
-                    if(localMax==previousVal){
-                        [localMaxes addObject:[NSNumber numberWithFloat:localMax]];
-                    }
-                    localMin=val;
-                }
-        }else
-        {
-            if(val<localMin)
-            {
-                localMin = val;
-            }
-            if(val>localMax)
-            {
-                localMax = val;
-            }
-        }
-        previousVal = val;
-    }
-    NSLog(@"the local maxes %@", localMaxes);
-    NSLog(@"the local mins %@", localMins);
-    
-    NSLog(@"local maxes and mins count %i %i",localMaxes.count, localMins.count);
-    
-    [[User sharedUser] setCurrentPulse:localMins.count*2/3];
-    [[[User sharedUser] locationManager] startUpdatingLocation];
-    
-    return localMins.count*6/5;
+    NSArray *smoothedScores = [PulseCalculator smoothScores:brightnessValues alpha:.3];
+    NSInteger pulseValue = [PulseCalculator pulseScore:smoothedScores interval:[[NSUserDefaults standardUserDefaults] integerForKey:@"timerLength"]];
+    currentPulse = pulseValue;
+    handler(pulseValue,nil);
 }
+
+-(void)savePulse{
+    NSLog(@"saving");
+    locationObject = [PFObject objectWithClassName:@"Pulses"];
+    
+    if(geoPoint)
+        [locationObject setObject:geoPoint forKey:@"location"];
+    
+    [locationObject setObject:[NSNumber numberWithInt:currentPulse] forKey:@"pulse"];
+    [locationObject setObject:[[PFUser currentUser] objectId] forKey:@"userId"];
+    [locationObject saveEventually:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            
+        }else{
+            NSLog(@"%@",error);
+        }
+    }];
+}
+
 @end

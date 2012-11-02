@@ -16,27 +16,30 @@
 
 @implementation DetailViewController
 @synthesize mapView = _mapView;
+@synthesize clickedObject;
 
 #pragma mark - UIViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    if ([[User sharedUser] locationObject]) {
-        // obtain the geopoint
-        PFGeoPoint *geoPoint = [[[User sharedUser] locationObject] objectForKey:@"location"];
+    [self.navigationController setToolbarHidden:YES];
+    
+    if(clickedObject)
+    {
+        PFGeoPoint *geoPoint = [clickedObject objectForKey:@"location"];
         
         NSLog(@"the location %@", geoPoint);
         
-        // center our map view around this geopoint
-        [self.mapView setRegion:MKCoordinateRegionMake(CLLocationCoordinate2DMake(geoPoint.latitude, geoPoint.longitude), MKCoordinateSpanMake(0.01, 0.01))];
-        
-        PFObject *object = [PFObject objectWithClassName:@"Location"];
-        [object setObject:geoPoint forKey:@"location"];
-        
-        // add the annotation
-        GeoPointAnnotation *annotation = [[GeoPointAnnotation alloc] initWithObject:object];
-        [self.mapView addAnnotation:annotation];
+        if(geoPoint)
+        {
+            // center our map view around this geopoint
+            [self.mapView setRegion:MKCoordinateRegionMake(CLLocationCoordinate2DMake(geoPoint.latitude, geoPoint.longitude), MKCoordinateSpanMake(0.01, 0.01))];
+            
+            // add the annotation
+            GeoPointAnnotation *annotation = [[GeoPointAnnotation alloc] initWithObject:clickedObject];
+                [self.mapView addAnnotation:annotation];
+        }
     }
 }
 

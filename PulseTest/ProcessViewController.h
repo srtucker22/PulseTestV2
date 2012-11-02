@@ -57,9 +57,15 @@ Copyright (C) 2010 Apple Inc. All Rights Reserved.
     NSTimer *countdownTimer;
     int remainingTicks;
     
+    UILabel *instructions;
+    UIView *instructionsBackground;
+    
     UILabel *timeRemainingLabel;
-    UIButton *progressButton;
-    UIButton *progressBackground;
+    
+    UIImageView *heartBackground;
+    UIImageView *heartProgress;
+    CALayer *maskLayer;
+    double progressSize;
 }
 
 @property (retain) CaptureSessionManager *captureManager;
