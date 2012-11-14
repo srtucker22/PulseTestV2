@@ -31,8 +31,6 @@
 		3143B889163CBF4F0027D923 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3143B864163CBF4E0027D923 /* UIKit.framework */; };
 		3143B88A163CBF4F0027D923 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3143B866163CBF4E0027D923 /* Foundation.framework */; };
 		3143B88B163CBF4F0027D923 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3143B86A163CBF4E0027D923 /* CoreData.framework */; };
-		3143B893163CBF4F0027D923 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3143B891163CBF4F0027D923 /* InfoPlist.strings */; };
-		3143B896163CBF4F0027D923 /* PulseTestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3143B895163CBF4F0027D923 /* PulseTestTests.m */; };
 		3143B8AD163CBF740027D923 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 3143B8A0163CBF740027D923 /* User.m */; };
 		3143B8AE163CBF740027D923 /* ResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3143B8A3163CBF740027D923 /* ResultsViewController.m */; };
 		3143B8AF163CBF740027D923 /* ResultsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3143B8A4163CBF740027D923 /* ResultsViewController.xib */; };
@@ -109,10 +107,6 @@
 		3143B87F163CBF4F0027D923 /* PulseTest.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PulseTest.xcdatamodel; sourceTree = "<group>"; };
 		3143B886163CBF4F0027D923 /* PulseTestTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PulseTestTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3143B887163CBF4F0027D923 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		3143B890163CBF4F0027D923 /* PulseTestTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PulseTestTests-Info.plist"; sourceTree = "<group>"; };
-		3143B892163CBF4F0027D923 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		3143B894163CBF4F0027D923 /* PulseTestTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PulseTestTests.h; sourceTree = "<group>"; };
-		3143B895163CBF4F0027D923 /* PulseTestTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PulseTestTests.m; sourceTree = "<group>"; };
 		3143B8A0163CBF740027D923 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		3143B8A1163CBF740027D923 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		3143B8A2163CBF740027D923 /* ResultsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResultsViewController.h; sourceTree = "<group>"; };
@@ -208,7 +202,6 @@
 				312689B71643417000A97622 /* pulse_test_icon.png */,
 				312689B51643416C00A97622 /* pulse_test_icon_small.png */,
 				3143B86C163CBF4E0027D923 /* PulseTest */,
-				3143B88E163CBF4F0027D923 /* PulseTestTests */,
 				3143B863163CBF4E0027D923 /* Frameworks */,
 				3143B861163CBF4E0027D923 /* Products */,
 			);
@@ -312,25 +305,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		3143B88E163CBF4F0027D923 /* PulseTestTests */ = {
-			isa = PBXGroup;
-			children = (
-				3143B894163CBF4F0027D923 /* PulseTestTests.h */,
-				3143B895163CBF4F0027D923 /* PulseTestTests.m */,
-				3143B88F163CBF4F0027D923 /* Supporting Files */,
-			);
-			path = PulseTestTests;
-			sourceTree = "<group>";
-		};
-		3143B88F163CBF4F0027D923 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				3143B890163CBF4F0027D923 /* PulseTestTests-Info.plist */,
-				3143B891163CBF4F0027D923 /* InfoPlist.strings */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -426,7 +400,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3143B893163CBF4F0027D923 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -474,7 +447,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3143B896163CBF4F0027D923 /* PulseTestTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -493,14 +465,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				3143B870163CBF4E0027D923 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		3143B891163CBF4F0027D923 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				3143B892163CBF4F0027D923 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";

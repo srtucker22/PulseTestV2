@@ -19,10 +19,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [Parse setApplicationId:@"APPID"
-                  clientKey:@"KEY"];
+    [Parse setApplicationId:@"7bpSVGEVFvdmId37JvgUceWXBakt2mncR9ZVsCAC"
+                  clientKey:@"Mn9PFOpINA7nsDg3J71Jle3xYT5Yk7rXPC2Uh3ud"];
     
-    [PFFacebookUtils initializeWithApplicationId:@"APPID"];
+    [PFFacebookUtils initializeWithApplicationId:@"333313373432613"];
     
     //If the user is new, assign an anonymous PFUser
     if(![PFUser currentUser])

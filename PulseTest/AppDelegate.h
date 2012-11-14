@@ -14,6 +14,6 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
-@property (nonatomic, retain) IntroViewController *viewController;
+@property (nonatomic, strong) IntroViewController *viewController;
 
 @end

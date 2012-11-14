@@ -65,8 +65,8 @@ Copyright (C) 2010 Apple Inc. All Rights Reserved.
 - (void) addVideoDataOutput;
 - (void) setColorReferencePoint:(CGPoint) point;
 
-@property (retain) AVCaptureVideoPreviewLayer *previewLayer;
-@property (retain) AVCaptureSession *captureSession;
+@property (strong) AVCaptureVideoPreviewLayer *previewLayer;
+@property (strong) AVCaptureSession *captureSession;
 
 @property (readwrite) NSMutableArray *brightnessArray;
 

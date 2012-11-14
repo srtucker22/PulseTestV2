@@ -68,8 +68,8 @@ Copyright (C) 2010 Apple Inc. All Rights Reserved.
     double progressSize;
 }
 
-@property (retain) CaptureSessionManager *captureManager;
-@property (nonatomic, retain) IBOutlet CALayer *overlayLayer;
+@property (nonatomic, strong) CaptureSessionManager *captureManager;
+@property (nonatomic, strong) IBOutlet CALayer *overlayLayer;
 
 @end
 
